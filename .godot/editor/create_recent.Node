@@ -1,0 +1,8 @@
+MeshInstance3D
+WorldEnvironment
+Camera3D
+NavigationAgent3D
+CollisionShape3D
+CharacterBody3D
+StaticBody3D
+NavigationRegion3D

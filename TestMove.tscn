@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://dqgiyvlaqa17y"]
+
+[ext_resource type="Script" path="res://ClickToMove.gd" id="1_fcvan"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_hif2c"]
+vertices = PackedVector3Array(9.55611, 0.0271594, -0.112995, 9.55611, 0.0271594, -10.113, 0.0561085, 0.0271594, -10.113, -9.44389, 0.0271594, -0.112995, -9.44389, 0.0271594, 10.137, 0.0561085, 0.0271594, 10.137, 0.0561085, 0.0271594, -10.113, -9.44389, 0.0271594, -10.113, -9.44389, 0.0271594, -0.112995, 0.0561085, 0.0271594, 10.137, 9.55611, 0.0271594, 10.137, 9.55611, 0.0271594, -0.112995)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 5), PackedInt32Array(3, 5, 4), PackedInt32Array(8, 7, 6), PackedInt32Array(11, 10, 9)]
+cell_height = 0.01
+
+[sub_resource type="BoxMesh" id="BoxMesh_q8a4c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vvx0g"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6lim0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_18hyh"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_v8pv1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gemmb"]
+
+[sub_resource type="Sky" id="Sky_6xbsx"]
+sky_material = SubResource("ProceduralSkyMaterial_gemmb")
+
+[sub_resource type="Environment" id="Environment_re82b"]
+background_mode = 2
+sky = SubResource("Sky_6xbsx")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_hif2c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D"]
+transform = Transform3D(19.8878, 0, 0, 0, 0.0256813, 0, 0, 0, 21.226, 0, 0, 0)
+mesh = SubResource("BoxMesh_q8a4c")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_vvx0g")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_fcvan")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12328, 0)
+mesh = SubResource("CapsuleMesh_6lim0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12774, 0)
+shape = SubResource("CapsuleShape3D_18hyh")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="CharacterBody3D"]
+path_desired_distance = 0.1
+target_desired_distance = 0.1
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(-2.92778e-08, -2.07389e-08, -0.586846, -0.669799, -1.77636e-15, 2.56518e-08, 0, 0.47445, -2.56518e-08, 0.00455783, 1.404, -0.493403)
+mesh = SubResource("CapsuleMesh_v8pv1")
+
+[node name="Camera3D" type="Camera3D" parent="." groups=["Camera"]]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7.92028, 13.1512)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_re82b")
